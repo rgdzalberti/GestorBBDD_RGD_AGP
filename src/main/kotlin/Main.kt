@@ -1,7 +1,7 @@
 import modelo.GestorBDD
 import modelo.clases.Pelicula
 
-fun main(args: Array<String>) {
+fun main() {
 
 
     val pelicula = Pelicula(110112L, "La muerte de Ricardo", "La mejor pelicula del mundo", 2023,"Klays" )

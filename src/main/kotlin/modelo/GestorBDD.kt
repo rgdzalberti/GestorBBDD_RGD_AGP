@@ -7,6 +7,9 @@ import java.sql.DriverManager
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Statement
+import java.util.logging.Logger
+
+
 
 class GestorBDD private constructor() {
 
@@ -16,7 +19,6 @@ class GestorBDD private constructor() {
     private val password: String = "admin"
 
     //BD
-    private var query: String = ""
     private var conn: Connection? = null
 
 
