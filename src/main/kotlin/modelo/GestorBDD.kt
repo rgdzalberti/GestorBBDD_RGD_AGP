@@ -97,14 +97,14 @@ class GestorBDD private constructor() {
     }
 
     //Función de insertar pelicula
-    fun insert(pelicula: Pelicula): Boolean {
+    fun insertPelicula(pelicula: Pelicula): Boolean {
 
         if (conn != null && !conn?.isClosed!!) {
             try {
                 if (selectById(pelicula.id) == null) {
                     conn!!.autoCommit = false
                     val rows: Int
-                    val ps: PreparedStatement = conn!!.prepareStatement(Sentencias.insert)
+                    val ps: PreparedStatement = conn!!.prepareStatement(Sentencias.insertPelicula)
                     ps.setLong(1, pelicula.id)
                     ps.setString(2, pelicula.titulo)
                     ps.setInt(3, pelicula.anio)
@@ -114,13 +114,16 @@ class GestorBDD private constructor() {
                     ps.close()
                     if (rows < 1) {
                         conn!!.commit()
+                        println("Insert realizado con éxito")
                         return true
                     } else {
                         conn!!.rollback()
+                        println("Error en el insert")
                         return false
                     }
 
                 } else {
+                    println("No hay conexión")
                     return false
                 }
 
@@ -134,6 +137,85 @@ class GestorBDD private constructor() {
 
         return false
 
+    }
+
+    fun updateById(id:Long, pelicula: Pelicula):Boolean{
+        if (conn != null && !conn?.isClosed!!) {
+
+            if (selectById(id) != null) {
+                try {
+                    conn!!.autoCommit = false
+                    val rows: Int
+                    val ps: PreparedStatement = conn!!.prepareStatement(Sentencias.updateById)
+                    ps.setLong(1, pelicula.id)
+                    ps.setString(2, pelicula.titulo)
+                    ps.setInt(3, pelicula.anio)
+                    ps.setString(4, pelicula.director)
+                    ps.setString(5, pelicula.comentario)
+                    ps.setLong(6, pelicula.id)
+                    rows = ps.executeUpdate()
+                    ps.close()
+                    //todo: Checkear que hace las rows
+                    if (rows < 1) {
+                        conn!!.commit()
+                        println("Actualizado con éxito")
+                        return true
+                    } else {
+                        conn!!.rollback()
+                        println("Error en la actualización")
+                        return false
+                    }
+                } catch (e: Exception){
+                    conn!!.rollback()
+                    e.printStackTrace()
+                    return false
+                }
+            }
+            else{
+                println("No existe una película con ese id")
+                return false
+            }
+        }else{
+            println("No hay conexión")
+            return false
+        }
+    }
+
+    fun deleteById(id:Long):Boolean{
+        if (conn != null && !conn?.isClosed!!) {
+
+            if (selectById(id) != null) {
+                try {
+                    conn!!.autoCommit = false
+                    val rows: Int
+                    val ps: PreparedStatement = conn!!.prepareStatement(Sentencias.deleteById)
+                    ps.setLong(1, id)
+                    rows = ps.executeUpdate()
+                    ps.close()
+                    //todo: Checkear que hace las rows
+                    if (rows < 1) {
+                        conn!!.commit()
+                        println("Borrado con éxito")
+                        return true
+                    } else {
+                        conn!!.rollback()
+                        println("Error en el borrado")
+                        return false
+                    }
+                } catch (e: Exception){
+                    conn!!.rollback()
+                    e.printStackTrace()
+                    return false
+                }
+            }
+            else{
+                println("No existe una película con ese id")
+                return false
+            }
+        }else{
+            println("No hay conexión")
+            return false
+        }
     }
 
     //
