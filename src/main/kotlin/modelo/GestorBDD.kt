@@ -59,11 +59,11 @@ class GestorBDD private constructor() {
 
             while (rs.next()) {
                 val id = rs.getLong("id_pelicula")
-                val titulo = rs.getString("titulo")
+                val nombre = rs.getString("nombre")
+                val comentario = rs.getString("comentario")
                 val anio = rs.getInt("anio")
                 val director = rs.getString("director")
-                val comentario = rs.getString("comentario")
-                peliculas.add(Pelicula(id, titulo, anio, director, comentario))
+                peliculas.add(Pelicula(id, nombre, comentario, anio, director))
             }
 
         } else {
@@ -82,12 +82,12 @@ class GestorBDD private constructor() {
             val rs: ResultSet = ps.executeQuery()
 
             while (rs.next()) {
-                val titulo = rs.getString("titulo")
+                val nombre = rs.getString("nombre")
+                val comentario = rs.getString("comentario")
                 val anio = rs.getInt("anio")
                 val director = rs.getString("director")
-                val comentario = rs.getString("comentario")
 
-                pelicula = Pelicula(id, titulo, anio, director, comentario)
+                pelicula = Pelicula(id, nombre, comentario, anio, director)
             }
 
         } else println("No hay conexión")
@@ -105,15 +105,16 @@ class GestorBDD private constructor() {
                     val rows: Int
                     val ps: PreparedStatement = conn!!.prepareStatement(Sentencias.insertPelicula)
                     ps.setLong(1, pelicula.id)
-                    ps.setString(2, pelicula.titulo)
-                    ps.setInt(3, pelicula.anio)
-                    ps.setString(4, pelicula.director)
-                    ps.setString(5, pelicula.comentario)
+                    ps.setString(2, pelicula.nombre)
+                    ps.setString(3, pelicula.comentario)
+                    ps.setInt(4, pelicula.anio)
+                    ps.setString(5, pelicula.director)
                     rows = ps.executeUpdate()
                     ps.close()
-                    if (rows < 1) {
+
+                    if (rows > 0) {
                         conn!!.commit()
-                        println("Insert realizado con éxito")
+                        println("Insertado con éxito")
                         return true
                     } else {
                         conn!!.rollback()
@@ -147,15 +148,15 @@ class GestorBDD private constructor() {
                     val rows: Int
                     val ps: PreparedStatement = conn!!.prepareStatement(Sentencias.updateById)
                     ps.setLong(1, pelicula.id)
-                    ps.setString(2, pelicula.titulo)
-                    ps.setInt(3, pelicula.anio)
-                    ps.setString(4, pelicula.director)
-                    ps.setString(5, pelicula.comentario)
+                    ps.setString(2, pelicula.nombre)
+                    ps.setString(3, pelicula.comentario)
+                    ps.setInt(4, pelicula.anio)
+                    ps.setString(5, pelicula.director)
+
                     ps.setLong(6, pelicula.id)
                     rows = ps.executeUpdate()
                     ps.close()
-                    //todo: Checkear que hace las rows
-                    if (rows < 1) {
+                    if (rows > 0) {
                         conn!!.commit()
                         println("Actualizado con éxito")
                         return true
@@ -191,8 +192,7 @@ class GestorBDD private constructor() {
                     ps.setLong(1, id)
                     rows = ps.executeUpdate()
                     ps.close()
-                    //todo: Checkear que hace las rows
-                    if (rows < 1) {
+                    if (rows > 0) {
                         conn!!.commit()
                         println("Borrado con éxito")
                         return true
