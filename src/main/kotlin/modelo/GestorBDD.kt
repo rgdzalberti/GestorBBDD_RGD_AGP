@@ -135,4 +135,6 @@ class GestorBDD private constructor() {
         return false
 
     }
+
+    //
 }
