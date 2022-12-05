@@ -11,13 +11,12 @@ import java.sql.Statement
 class GestorBDD private constructor() {
 
     //Datos de conexión
-    private val url: String = "jdbc:h2:mem:default"
+    private val url: String = "jdbc:h2:mem:peliculas"
     private val user: String = "admin"
     private val password: String = "admin"
 
     //BD
     private var query: String = ""
-    private val bd: String = "peliculas"
     private var conn: Connection? = null
 
 
@@ -33,7 +32,7 @@ class GestorBDD private constructor() {
 
     fun connect() {
         if (conn == null) {
-            conn = DriverManager.getConnection(url + bd, user, password)
+            conn = DriverManager.getConnection(url, user, password)
             println("[Conexión realizada correctamente]")
         } else {
             println("[La conexión ya existe]")
@@ -216,6 +215,14 @@ class GestorBDD private constructor() {
             println("No hay conexión")
             return false
         }
+    }
+
+
+    //Solo para testeo
+    fun createTablePeliculas(){
+        val ps: PreparedStatement = conn!!.prepareStatement(Sentencias.createTablePeliculas)
+        ps.executeUpdate()
+        ps.close()
     }
 
     //
