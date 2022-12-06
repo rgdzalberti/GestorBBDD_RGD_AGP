@@ -1,49 +1,36 @@
 package vista
 
-class GUI {
+import modelo.clases.Pelicula
 
-    fun start() {
+class GUI : UserInterface<Pelicula, Long> {
+
+    override fun startMenu(): Int? {
 
         var bool = false
         var input: String
 
-        do {
-            println("\nBienvenido a tu Filmoteca. Elija una opción:\n" +
+        println(
+            "\nBienvenido a tu Filmoteca. Elija una opción:\n" +
                     "1. Buscar película\n" +
                     "2. Registrar película\n" +
                     "3. Actualizar película\n" +
-                    "4. Borrar película\n" +
-                    "5. Salir\n")
+                    "4. Borrar película\n"
+        )
 
-            input = readln()
+        input = readln()
 
-            try {
-                if (input.toInt() in 1..5) bool = true
-            } catch (_: Exception) {
-                printIncorrectInput()
-            }
-
-        } while (!bool)
-
-        when (input) {
-            "1" -> {
-                printPelicula()
-                start()
-            }
-            "2" -> {
-                config.loadConfFromMap(modifyConfig(config.keyList()))
-                config.saveConf()
-                start()
-            }
-            "3" -> {
-                println("\nEl menú se cerrará.")
-            }
+        try {
+            if (input.toInt() in 1..4) {
+                bool = true
+                return input.toInt()
+            } else return null
+        } catch (_: Exception) {
+            return null
         }
-
 
     }
 
-    private fun printPelicula(id:Long) {
+    private fun printPelicula(id: Long) {
 
         println("\n")
     }
@@ -77,7 +64,7 @@ class GUI {
         }
 
 
-        if(bool){
+        if (bool) {
             val optionName = optionMap[input.toInt()]
 
             if (!optionName.isNullOrBlank()) {
@@ -101,8 +88,7 @@ class GUI {
 
             return newConfMap
 
-        }
-        else{
+        } else {
             printIncorrectInput()
             return emptyMap()
         }
