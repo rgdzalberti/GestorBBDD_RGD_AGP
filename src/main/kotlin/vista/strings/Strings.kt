@@ -9,4 +9,10 @@ object Strings{
 
 
     val insertID = "\nIntroduzca el ID del libro"
+    val insertNombre = "\nIntroduzca el nombre del libro"
+    val insertComentario = "\nIntroduzca el comentario del libro"
+    val insertAnio = "\nIntroduzca el año del libro"
+    val insertDirector = "\nIntroduzca el director del libro"
+
+
 }

@@ -37,15 +37,62 @@ class GUI : UserInterface<Pelicula, Long> {
     override fun insertData(): Pelicula? {
 
         println(Strings.insertID)
-        TODO()
+        val inputID: String = readln()
+
+        println(Strings.insertNombre)
+        val inputNombre: String = readln()
+
+        println(Strings.insertComentario)
+        val inputCometario: String = readln()
+
+        println(Strings.insertAnio)
+        val inputAnio: String = readln()
+
+        println(Strings.insertDirector)
+        val inputDirector: String = readln()
+
+        try {
+            return Pelicula(inputID.toLong(),inputNombre,inputCometario,inputAnio.toInt(),inputDirector)
+        } catch (_: Exception) {
+            return null
+        }
+
+
     }
 
     override fun updateData(): Pelicula? {
-        TODO("Not yet implemented")
+        println(Strings.insertID)
+        val inputID: String = readln()
+
+        println(Strings.insertNombre)
+        val inputNombre: String = readln()
+
+        println(Strings.insertComentario)
+        val inputCometario: String = readln()
+
+        println(Strings.insertAnio)
+        val inputAnio: String = readln()
+
+        println(Strings.insertDirector)
+        val inputDirector: String = readln()
+
+        try {
+            return Pelicula(inputID.toLong(),inputNombre,inputCometario,inputAnio.toInt(),inputDirector)
+        } catch (_: Exception) {
+            return null
+        }
     }
 
     override fun deleteData(): Long? {
-        TODO("Not yet implemented")
+        println(Strings.insertID)
+
+        val input: String = readln()
+
+        try {
+            return input.toLong()
+        } catch (_: Exception) {
+            return null
+        }
     }
 
 
