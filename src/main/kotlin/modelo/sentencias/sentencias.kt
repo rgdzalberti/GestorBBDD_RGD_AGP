@@ -1,5 +1,7 @@
 package modelo.sentencias
+import modelo.GestorBDD
 
+/**Objeto que almacena todas las sentencias SQL que utiliza [GestorBDD]*/
 object Sentencias{
     val insertPelicula = "INSERT INTO PELICULAS (ID_PELICULA, NOMBRE, COMENTARIO, ANIO, DIRECTOR) VALUES (?,?,?,?,?)"
     val selectById = "select * from PELICULAS where ID_PELICULA = ?"

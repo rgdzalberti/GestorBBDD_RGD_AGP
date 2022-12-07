@@ -7,10 +7,11 @@ import java.sql.DriverManager
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Statement
-import java.util.logging.Logger
 
 
-
+/**
+ * Gestiona una conexión a una base de datos, implementando Singleton para la instanciación de la clase, a la vez que todos los métodos necesarios para la manipulación de datos.
+ * */
 class GestorBDD private constructor() {
 
     //Datos de conexión
@@ -26,12 +27,16 @@ class GestorBDD private constructor() {
         @Volatile
         private var instance: GestorBDD? = null
 
+
+        /**Crea una nueva instancia del gestor de base de datos
+         * @return Instancia de [GestorBDD]*/
         fun getInstance(): GestorBDD {
             if (instance == null) instance = GestorBDD()
             return instance!!
         }
     }
 
+    /**Empieza la conexión con la base de datos*/
     fun connect() {
         if (conn == null) {
             conn = DriverManager.getConnection(url, user, password)
@@ -40,7 +45,7 @@ class GestorBDD private constructor() {
             println("[La conexión ya existe]")
         }
     }
-
+    /**Termina la conexión con la base de datos*/
     fun disconnect() {
         if (!conn?.isClosed!!) {
             conn!!.close()
@@ -51,6 +56,9 @@ class GestorBDD private constructor() {
     }
 
     //Funciones de obtención de datos
+
+    /**Recupera de la base de datos todas las entradas de la tabla
+     * @return [List] de [Pelicula], ordenadas por el orden en el que se encuentran en la base de datos*/
     fun selectAll(): List<Pelicula> {
         val peliculas = mutableListOf<Pelicula>()
 
@@ -73,7 +81,9 @@ class GestorBDD private constructor() {
         }
         return peliculas
     }
-
+    /**Recupera de la base de datos la entrada que coincide con el ID especificado
+     * @param id El ID del objeto que se quiere encontrar, en un long
+     * @return [Pelicula] cuyo id coincide con el especificado, si no se encuentra, devuelve null*/
     fun selectById(id: Long): Pelicula? {
         var pelicula: Pelicula? = null
 
@@ -98,6 +108,10 @@ class GestorBDD private constructor() {
     }
 
     //Función de insertar pelicula
+
+    /**Permite insertar una pelicula en la BD
+     * @param pelicula Objeto que se quiere insertar
+     * @return [Boolean], true si se ha completado el insert, false si no*/
     fun insertPelicula(pelicula: Pelicula): Boolean {
 
         if (conn != null && !conn?.isClosed!!) {
@@ -141,6 +155,14 @@ class GestorBDD private constructor() {
 
     }
 
+
+
+    //Función de actualizar
+
+    /**Permite actualizar una pelicula en la BD
+     * @param id ID que coincida con el del objeto que se quiera actualizar
+     * @param pelicula Objeto [Pelicula] con los datos nuevos
+     * @return [Boolean], true si se ha completado el insert, false si no*/
     fun updateById(id:Long, pelicula: Pelicula):Boolean{
         if (conn != null && !conn?.isClosed!!) {
 
@@ -183,6 +205,11 @@ class GestorBDD private constructor() {
         }
     }
 
+    //Función de borrado
+
+    /**Permite borrar una entrada de la BD mediante el ID del objeto
+     * @param id ID que coincide con el del objeto que se quiere borrar
+     * @return [Boolean], que especifica si se pudo completar la operación o no*/
     fun deleteById(id:Long):Boolean{
         if (conn != null && !conn?.isClosed!!) {
 
@@ -220,12 +247,18 @@ class GestorBDD private constructor() {
     }
 
 
-    //Solo para testeo
+    //Solo para testeo con BBDD in-memory.
+    /*
+    * Buenas Diego. Esta función, como habrás podido leer en la documentación de la función, no debería ser necesario ejecutarla de normal. Sin embargo,
+    * nosotros hemos utilizado H2 en memoria, que es una base de datos con host local, que ejecuta y existe durante y hasta el final de la ejecución del programa.
+    * Esto supone que cada vez que ejecutemos el MainKt va a dar error al no estar creada esta tabla, así que para facilitarnos el trabajo y tu primera ejecución
+    * de la app, hemos creado este método.*/
+
+    /**Función que crea una tabla películas. No debería ser necesario usarla en una base de datos convencional, ya que estaría creada la tabla de antemano*/
     fun createTablePeliculas(){
         val ps: PreparedStatement = conn!!.prepareStatement(Sentencias.createTablePeliculas)
         ps.executeUpdate()
         ps.close()
     }
 
-    //
 }

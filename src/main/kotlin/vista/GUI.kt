@@ -11,7 +11,7 @@ class GUI : UserInterface<Pelicula, Long> {
         val input: String = readln()
 
         try {
-            if (input.toInt() in 1..4) {
+            if (input.toInt() in 1..6) {
                 return input.toInt()
             } else return null
         } catch (_: Exception) {
@@ -20,7 +20,7 @@ class GUI : UserInterface<Pelicula, Long> {
 
     }
 
-    override fun printData(): Long? {
+    override fun getId(): Long? {
 
         println(Strings.insertID)
 
@@ -34,7 +34,7 @@ class GUI : UserInterface<Pelicula, Long> {
 
     }
 
-    override fun insertData(): Pelicula? {
+    override fun getData(): Pelicula? {
 
         println(Strings.insertID)
         val inputID: String = readln()
@@ -52,7 +52,7 @@ class GUI : UserInterface<Pelicula, Long> {
         val inputDirector: String = readln()
 
         try {
-            return Pelicula(inputID.toLong(),inputNombre,inputCometario,inputAnio.toInt(),inputDirector)
+            return Pelicula(inputID.toLong(), inputNombre, inputCometario, inputAnio.toInt(), inputDirector)
         } catch (_: Exception) {
             return null
         }
@@ -60,44 +60,22 @@ class GUI : UserInterface<Pelicula, Long> {
 
     }
 
-    override fun updateData(): Pelicula? {
-        println(Strings.insertID)
-        val inputID: String = readln()
 
-        println(Strings.insertNombre)
-        val inputNombre: String = readln()
-
-        println(Strings.insertComentario)
-        val inputCometario: String = readln()
-
-        println(Strings.insertAnio)
-        val inputAnio: String = readln()
-
-        println(Strings.insertDirector)
-        val inputDirector: String = readln()
-
-        try {
-            return Pelicula(inputID.toLong(),inputNombre,inputCometario,inputAnio.toInt(),inputDirector)
-        } catch (_: Exception) {
-            return null
-        }
-    }
-
-    override fun deleteData(): Long? {
-        println(Strings.insertID)
-
-        val input: String = readln()
-
-        try {
-            return input.toLong()
-        } catch (_: Exception) {
-            return null
-        }
+    override fun printIncorrectInput() {
+        println(Strings.incorrectInput)
     }
 
 
-    private fun printIncorrectInput() {
-        println("\nLa entrada ha sido incorrecta")
+    override fun dataNotFound() {
+        println(Strings.dataNotFound)
     }
 
+
+    override fun <T> printString(data: T) {
+        println(data)
+    }
+
+    override fun exit() {
+        println(Strings.exit)
+    }
 }
