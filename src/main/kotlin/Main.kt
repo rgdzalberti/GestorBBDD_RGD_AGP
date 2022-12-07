@@ -19,7 +19,7 @@ import vista.UserInterface
  * y son los que se usan en [GUI].
  *
  * - La [vista] la hemos dividido en una clase [GUI] y una interfaz [UserInterface], para que en vez de insertar la vista [GUI] directamente a el [Controlador],
- * puedas insertar la que quieras mientras implemente [UserInterface], o lo que es lo mismo, hemos implementado el patrón de diseño de injección de dependencias.
+ * puedas insertar la que quieras mientras implemente [UserInterface], o lo que es lo mismo, hemos implementado el patrón de diseño de inyección de dependencias.
  *
  * @author Alejandro González Parra y Ricardo Gallego Domínguez
 * */
